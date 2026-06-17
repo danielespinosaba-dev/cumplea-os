@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Bote de los Cumpleaños</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFF9F3; --card:#FFFFFF; --ink:#2D1B4E; --ink-soft:#6B5B86;
+    --pink:#FF4D8D; --gold:#FFC233; --mint:#23C9A6; --blue:#5B8DEF; --grape:#8B5CF6;
+    --line:#F0E6F5; --shadow:0 6px 22px rgba(45,27,78,.08); --shadow-lg:0 18px 50px rgba(45,27,78,.18); --r:18px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:"Fredoka","Inter",sans-serif;font-weight:600;letter-spacing:-.01em}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 18px 90px}
+
+  /* papel picado */
+  .bunting{display:flex;flex-wrap:nowrap;overflow:hidden;height:34px;justify-content:center;margin-top:6px}
+  .flag{flex:0 0 38px;height:30px;clip-path:polygon(0 0,100% 0,50% 100%);position:relative;opacity:.95}
+  .flag::before,.flag::after{content:"";position:absolute;background:var(--bg);border-radius:50%}
+  .flag::before{width:7px;height:7px;left:50%;top:5px;transform:translateX(-50%)}
+  .flag::after{width:4px;height:4px;left:50%;top:15px;transform:translateX(-50%)}
+  .flag:nth-child(5n+1){background:var(--pink)}.flag:nth-child(5n+2){background:var(--gold)}
+  .flag:nth-child(5n+3){background:var(--mint)}.flag:nth-child(5n+4){background:var(--blue)}
+  .flag:nth-child(5n+5){background:var(--grape)}
+
+  header{text-align:center;padding:24px 18px 6px}
+  .kicker{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+  header h1{font-size:clamp(2rem,6vw,3.2rem);margin:.18em 0 .1em;font-weight:700}
+  header h1 .em{color:var(--pink)}
+  header p.sub{color:var(--ink-soft);margin:.2em auto 0;max-width:560px;font-size:1rem}
+  .toolbar{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:14px}
+  .status{display:inline-flex;align-items:center;gap:8px;background:#F3EDF8;border-radius:999px;padding:7px 15px;font-size:.8rem;color:var(--ink-soft);border:none;font-weight:500;cursor:pointer;font-family:inherit}
+  .status:hover{background:#EBE0F5}
+  .status .dot{width:8px;height:8px;border-radius:50%;background:var(--ink-soft)}
+  .status.ok .dot{background:var(--mint)} .status.off .dot{background:var(--gold)}
+  .status.loading .dot{background:var(--blue);animation:pulse 1s infinite}
+  @keyframes pulse{50%{opacity:.3}}
+  .edit-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-family:"Fredoka";font-weight:600;font-size:.9rem;padding:9px 18px;border-radius:999px;background:var(--ink);color:#fff;transition:transform .12s}
+  .edit-link:hover{transform:translateY(-2px)}
+
+  /* hero */
+  .hero{background:var(--card);border-radius:26px;box-shadow:var(--shadow);padding:26px 26px 30px;margin-top:20px;border:1px solid var(--line)}
+  .hero .label{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+  .hero .big{font-family:"Fredoka";font-weight:700;font-size:clamp(2.6rem,9vw,4.4rem);line-height:1;margin:.1em 0 .05em}
+  .hero .big small{font-size:.34em;color:var(--ink-soft);font-weight:500}
+  .hero .disp-note{color:var(--ink-soft);font-size:.95rem}
+  .meter{margin-top:22px;height:26px;border-radius:13px;background:#F3EDF8;overflow:hidden;display:flex}
+  .meter .spent{background:linear-gradient(90deg,#FF7AA8,var(--pink));display:flex;align-items:center;padding-left:12px;transition:width .4s}
+  .meter .free{background:linear-gradient(90deg,var(--mint),#3FE0BE);transition:width .4s}
+  .meter span{font-size:.72rem;font-weight:700;color:#fff;white-space:nowrap}
+  .legend{display:flex;gap:18px;margin-top:12px;flex-wrap:wrap}
+  .legend i{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:7px;vertical-align:-1px}
+  .legend span{font-size:.86rem;color:var(--ink-soft);font-weight:500}
+  .legend b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+  .tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow)}
+  .tile .t-label{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+  .tile .t-val{font-family:"Fredoka";font-weight:600;font-size:1.7rem;margin-top:3px;font-variant-numeric:tabular-nums}
+  .tile.in .t-val{color:var(--mint)}.tile.out .t-val{color:var(--pink)}.tile.left .t-val{color:var(--grape)}
+
+  .sec-head{display:flex;align-items:center;gap:12px;margin:42px 0 16px;flex-wrap:wrap}
+  .sec-head h2{font-size:1.5rem;margin:0}
+  .sec-head .count{font-size:.82rem;color:var(--ink-soft);background:#F3EDF8;border-radius:999px;padding:4px 12px;font-weight:600}
+  .sec-head .hint{margin-left:auto;font-size:.85rem;color:var(--ink-soft)}
+
+  /* roster */
+  .roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);text-align:left;transition:transform .15s,box-shadow .15s,border-color .15s;font:inherit;color:inherit;display:block;width:100%;cursor:pointer}
+  .person:hover,.person:focus-visible{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--pink);outline:none}
+  .person:focus-visible{outline:3px solid rgba(255,77,141,.35);outline-offset:2px}
+  .p-row{display:flex;align-items:center;gap:11px}
+  .avatar{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-family:"Fredoka";font-weight:700;color:#fff;font-size:1.05rem;flex:0 0 auto}
+  .p-name{font-family:"Fredoka";font-weight:600;font-size:1.08rem;line-height:1.1}
+  .p-amt{margin-left:auto;text-align:right}
+  .p-amt b{font-variant-numeric:tabular-nums;font-size:1.02rem}
+  .p-amt .of{color:var(--ink-soft);font-size:.78rem}
+  .p-bar{height:7px;border-radius:99px;background:#F1EAF7;margin-top:13px;overflow:hidden}
+  .p-bar i{display:block;height:100%;border-radius:99px;transition:width .3s}
+  .p-foot{display:flex;align-items:center;justify-content:space-between;margin-top:11px}
+  .dots{display:flex;gap:3px}
+  .dots i{width:8px;height:8px;border-radius:50%;background:#E7DCF1}
+  .dots i.on{background:var(--mint)}
+  .badge{font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:999px}
+  .badge.full{background:rgba(35,201,166,.14);color:#138a72}
+  .badge.part{background:rgba(91,141,239,.14);color:#2f5fc0}
+  .badge.none{background:rgba(255,77,141,.12);color:#c93069}
+  .tap-hint{font-size:.72rem;color:var(--ink-soft);margin-top:9px}
+
+  /* compras */
+  .buys{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+  .buy-row{display:grid;grid-template-columns:1fr auto 92px;gap:10px;padding:13px 18px;align-items:center;border-bottom:1px solid var(--line)}
+  .buy-row:last-of-type{border-bottom:none}
+  .buy-name{font-weight:500}
+  .buy-qty{color:var(--ink-soft);font-size:.86rem;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+  .buy-tot{font-weight:600;font-variant-numeric:tabular-nums;text-align:right}
+  .buy-foot{display:flex;justify-content:space-between;padding:16px 18px;background:#FBF6FF}
+  .buy-foot .lbl{font-family:"Fredoka";font-weight:600}
+  .buy-foot b{font-variant-numeric:tabular-nums}
+
+  footer{text-align:center;color:var(--ink-soft);font-size:.82rem;margin-top:46px}
+  footer a{color:var(--pink);text-decoration:none;font-weight:600}
+
+  /* modal */
+  .overlay{position:fixed;inset:0;background:rgba(45,27,78,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}
+  .overlay.show{display:flex}
+  .modal{background:var(--card);border-radius:26px;box-shadow:var(--shadow-lg);width:100%;max-width:480px;position:relative;overflow:visible;animation:pop .25s cubic-bezier(.2,.8,.25,1.4)}
+  @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+  .modal-band{height:8px;border-radius:26px 26px 0 0;background:linear-gradient(90deg,var(--pink),var(--gold),var(--mint),var(--blue),var(--grape))}
+  .modal-x{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:none;background:#F3EDF8;color:var(--ink);font-size:1.1rem;cursor:pointer;z-index:3;display:grid;place-items:center}
+  .modal-x:hover{background:#EBE0F5}
+  .modal-body{padding:30px 26px 32px;text-align:center}
+  .modal-body .who{font-family:"Fredoka";font-weight:700;font-size:1.7rem;margin:6px 0 2px}
+  .modal-body .ask{color:var(--ink-soft);margin:0 0 22px}
+  .play{position:relative;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+  .btn{font-family:"Fredoka";font-weight:600;font-size:1.05rem;border:none;border-radius:14px;padding:14px 22px;cursor:pointer}
+  .btn-no{background:#F1EAF7;color:var(--ink);transition:transform .12s,background .15s}
+  .btn-no:hover{background:#E7DCF1;transform:translateY(-2px)}
+  .btn-yes{background:linear-gradient(135deg,var(--pink),var(--gold));color:#fff;box-shadow:0 8px 20px rgba(255,77,141,.4)}
+  .btn-yes.fleeing{position:fixed;z-index:120;will-change:left,top;transition:left .06s linear,top .06s linear}
+  .tries{font-size:.8rem;color:var(--ink-soft);min-height:1.2em}
+  .reveal{display:none;text-align:center;animation:fade .3s}
+  .reveal.show{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+  .reveal .face{font-size:4.6rem;line-height:1;filter:grayscale(.3)}
+  .reveal .verdict{font-family:"Fredoka";font-weight:700;font-size:1.55rem;margin:10px 0 4px}
+  .reveal .small{color:var(--ink-soft);margin:0 0 20px}
+  .reveal .back{background:var(--ink);color:#fff;border:none;border-radius:12px;padding:11px 20px;font-family:"Fredoka";font-weight:600;cursor:pointer}
+
+  @media (max-width:560px){
+    .stats{grid-template-columns:1fr}
+    .buy-row{grid-template-columns:1fr auto 80px}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<div class="bunting" id="bunting" aria-hidden="true"></div>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">Cooperación de la oficina</div>
+    <h1>El Bote de los <span class="em">Cumpleaños</span></h1>
+    <p class="sub">$10 al mes, $120 al año. Para editar (marcar pagos o agregar gastos) abre la hoja; esta página se actualiza sola.</p>
+    <div class="toolbar">
+      <button class="status loading" id="statusChip"><span class="dot"></span><span id="statusText">Cargando…</span></button>
+      <a class="edit-link" id="editLink" target="_blank" rel="noopener">✏️ Editar en la hoja</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="label">Disponible en el bote</div>
+    <div class="big" id="dispBig">$0<small> MXN</small></div>
+    <div class="disp-note" id="dispNote"></div>
+    <div class="meter" role="img" aria-label="Distribución del bote">
+      <div class="spent" id="meterSpent"><span id="meterSpentTxt"></span></div>
+      <div class="free" id="meterFree"></div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--pink)"></i>Gastado <b id="legSpent">$0</b></span>
+      <span><i style="background:var(--mint)"></i>Disponible <b id="legFree">$0</b></span>
+      <span><i style="background:#D9CBE8"></i>Recaudado <b id="legRaised">$0</b></span>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="tile in"><div class="t-label">Recaudado</div><div class="t-val" id="stRaised">$0</div></div>
+    <div class="tile out"><div class="t-label">Gastado</div><div class="t-val" id="stSpent">$0</div></div>
+    <div class="tile left"><div class="t-label">Disponible</div><div class="t-val" id="stFree">$0</div></div>
+  </div>
+
+  <div class="sec-head">
+    <h2>Aportaciones</h2>
+    <span class="count" id="rosterCount">0</span>
+    <span class="hint">Toca a alguien 👀</span>
+  </div>
+  <div class="roster" id="roster"></div>
+
+  <div class="sec-head">
+    <h2>Lo que ya compramos</h2>
+    <span class="count" id="buysCount">0</span>
+  </div>
+  <div class="buys" id="buys"></div>
+
+  <footer>Hecho con 🎂 para la oficina</footer>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="who">
+    <div class="modal-band"></div>
+    <button class="modal-x" id="closeModal" aria-label="Cerrar">✕</button>
+    <div class="modal-body">
+      <div id="gamePanel">
+        <div style="font-size:2.4rem">🎈</div>
+        <div class="who" id="who">Hola</div>
+        <p class="ask">La gran pregunta del día…</p>
+        <div class="play">
+          <button class="btn btn-no" id="btnNo">Hoy no es mi cumpleaños</button>
+          <button class="btn btn-yes" id="btnYes">¡Hoy es mi cumpleaños!</button>
+          <div class="tries" id="tries"></div>
+        </div>
+      </div>
+      <div class="reveal" id="reveal">
+        <div class="face" id="revealFace">😐</div>
+        <div class="verdict">Hoy no eres especial</div>
+        <p class="small" id="revealSub"></p>
+        <button class="back" id="revealBack">Aceptar mi destino</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   FUENTE DE DATOS: la hoja de cálculo.
+   Editas en la hoja (pagos y gastos) y esta página se actualiza
+   sola al cargar, cada 60 s y al volver a la pestaña.
+
+   REQUISITO ÚNICO: la hoja debe estar compartida como
+   "Cualquiera con el enlace -> Lector".
+   (Si por alguna razón no carga, ve a  Archivo > Compartir >
+    Publicar en la web > CSV  y listo; eso garantiza la lectura.)
+   ============================================================ */
+const SHEET_ID = "1to8kg8F8fUKBCKR13ywX2OrZ7dmkbrTqEmkCT-NkV5Y";
+const CUOTA_MES = 10, CUOTA_ANUAL = 120;
+const MESES_FULL = ["Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre","Enero","Febrero","Marzo"];
+
+/* Nombres que SÍ cumplen años hoy: su botón deja de huir y celebra.
+   (Pendiente: definir contigo qué pasa exactamente al ganar.) */
+const CUMPLES_HOY = [];
+
+/* Copia de respaldo (instantánea de hoy) por si la hoja no carga */
+let COLAB = [
+  {nombre:"Almis",meses:b("110000000000")},{nombre:"Ara",meses:b("111111111111")},
+  {nombre:"Bety",meses:b("111111111111")},{nombre:"Dani boy",meses:b("111111111111")},
+  {nombre:"Eli",meses:b("111111111110")},{nombre:"Ginis",meses:b("111111111111")},
+  {nombre:"Harry",meses:b("111111111111")},{nombre:"Tania",meses:b("111111111111")},
+  {nombre:"Xiri",meses:b("111111111111")},{nombre:"Claudia",meses:b("000000000000")},
+  {nombre:"Edith",meses:b("000000000000")},{nombre:"Lula",meses:b("000000000000")},
+  {nombre:"Pili",meses:b("110000000000")},{nombre:"Jessi",meses:b("111111111111")},
+  {nombre:"Nacho",meses:b("000000000000")},{nombre:"Dani girl",meses:b("111111111111")},
+];
+let COMPRAS = [
+  {articulo:"Velas de cumpleaños",cantidad:2,unitario:20},{articulo:"Adornos para fiesta",cantidad:1,unitario:55},
+  {articulo:"Banderola",cantidad:1,unitario:25},{articulo:"Adornos para fiesta (colgar)",cantidad:1,unitario:60},
+  {articulo:"Letrero",cantidad:1,unitario:40},{articulo:"Confeti",cantidad:1,unitario:60},
+  {articulo:"Banda de cumpleaños",cantidad:1,unitario:38},{articulo:"Cucharas",cantidad:6,unitario:24},
+  {articulo:"Platos de cartón",cantidad:6,unitario:21},{articulo:"Servilletas",cantidad:1,unitario:45},
+];
+function b(s){return s.split("").map(c=>c==="1")}
+
+/* ---------- Helpers ---------- */
+const fmt = new Intl.NumberFormat("es-MX",{style:"currency",currency:"MXN",minimumFractionDigits:0,maximumFractionDigits:0});
+const $ = s=>document.querySelector(s);
+const n = v=>{const x=parseFloat(String(v).replace(/[^0-9.\-]/g,""));return isNaN(x)?0:x};
+const pagados = c=>(c.meses||[]).filter(Boolean).length;
+const aportado = c=>pagados(c)*CUOTA_MES;
+const initial = nm=>nm.trim().charAt(0).toUpperCase()||"?";
+const esc = s=>(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const AV=["var(--pink)","var(--gold)","var(--mint)","var(--blue)","var(--grape)"];
+function totales(){
+  const recaudado=COLAB.reduce((a,c)=>a+aportado(c),0);
+  const gastado=COMPRAS.reduce((a,c)=>a+n(c.cantidad)*n(c.unitario),0);
+  return {recaudado,gastado,disponible:recaudado-gastado};
+}
+
+$("#editLink").href = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`;
+
+/* ============================================================
+   Render
+   ============================================================ */
+function renderBunting(){const k=Math.ceil(window.innerWidth/38)+2;$("#bunting").innerHTML=Array.from({length:k},()=>'<div class="flag"></div>').join("");}
+
+function renderHero(){
+  const {recaudado,gastado,disponible}=totales();
+  $("#dispBig").innerHTML=fmt.format(disponible)+'<small> MXN</small>';
+  $("#dispNote").textContent=`De ${fmt.format(recaudado)} recaudados, ya se usaron ${fmt.format(gastado)}.`;
+  const p=recaudado>0?Math.round(gastado/recaudado*100):0;
+  $("#meterSpent").style.width=p+"%";$("#meterFree").style.width=(100-p)+"%";
+  $("#meterSpentTxt").textContent=p>=14?p+"% usado":"";
+  $("#legSpent").textContent=fmt.format(gastado);$("#legFree").textContent=fmt.format(disponible);$("#legRaised").textContent=fmt.format(recaudado);
+  $("#stRaised").textContent=fmt.format(recaudado);$("#stSpent").textContent=fmt.format(gastado);$("#stFree").textContent=fmt.format(disponible);
+}
+
+function renderRoster(){
+  const cont=$("#roster");cont.innerHTML="";
+  $("#rosterCount").textContent=COLAB.length+" personas";
+  COLAB.forEach((c,idx)=>{
+    const amt=aportado(c),pag=pagados(c),pct=Math.min(100,Math.round(amt/CUOTA_ANUAL*100));
+    let cls="part",txt="Va aportando",col="var(--blue)";
+    if(pag>=12){cls="full";txt="Pagó el año";col="var(--mint)";}
+    else if(pag===0){cls="none";txt="Pendiente";col="var(--pink)";}
+    const dots=(c.meses||[]).map((m,i)=>`<i class="${m?'on':''}" title="${MESES_FULL[i]||''}"></i>`).join("");
+    const card=document.createElement("button");
+    card.className="person";
+    card.setAttribute("aria-label",`Abrir el juego de ${esc(c.nombre)}`);
+    card.innerHTML=`
+      <div class="p-row">
+        <div class="avatar" style="background:${AV[idx%AV.length]}">${esc(initial(c.nombre))}</div>
+        <div class="p-name">${esc(c.nombre)}</div>
+        <div class="p-amt"><b>${fmt.format(amt)}</b><div class="of">de ${fmt.format(CUOTA_ANUAL)}</div></div>
+      </div>
+      <div class="p-bar"><i style="width:${pct}%;background:${col}"></i></div>
+      <div class="p-foot">
+        <div class="dots" title="${pag} de 12 meses">${dots}</div>
+        <span class="badge ${cls}">${txt}</span>
+      </div>
+      <div class="tap-hint">🎁 Toca para abrir tu sorpresa</div>`;
+    card.addEventListener("click",()=>openGame(c.nombre));
+    cont.appendChild(card);
+  });
+}
+
+function renderBuys(){
+  const cont=$("#buys");
+  $("#buysCount").textContent=COMPRAS.length+" artículos";
+  const {gastado,disponible}=totales();
+  let html=COMPRAS.map(c=>`
+    <div class="buy-row">
+      <div class="buy-name">${esc(c.articulo)}</div>
+      <div class="buy-qty">${c.cantidad} × ${fmt.format(c.unitario)}</div>
+      <div class="buy-tot">${fmt.format(n(c.cantidad)*n(c.unitario))}</div>
+    </div>`).join("");
+  html+=`<div class="buy-foot"><span class="lbl">Total gastado</span><b>${fmt.format(gastado)}</b></div>
+         <div class="buy-foot" style="background:#F2FBF8"><span class="lbl">Remanente</span><b style="color:var(--mint)">${fmt.format(disponible)}</b></div>`;
+  cont.innerHTML=html;
+}
+function renderAll(){renderHero();renderRoster();renderBuys();}
+
+/* ============================================================
+   Lectura de la hoja de cálculo (CSV) + parseo de 2 tablas
+   ============================================================ */
+const SOURCES=[
+  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`,
+  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`
+];
+function parseCSV(text){
+  const rows=[];let row=[],cell="",q=false;
+  for(let i=0;i<text.length;i++){
+    const ch=text[i];
+    if(q){ if(ch==='"'){ if(text[i+1]==='"'){cell+='"';i++;} else q=false; } else cell+=ch; }
+    else{
+      if(ch==='"')q=true;
+      else if(ch===','){row.push(cell);cell="";}
+      else if(ch==='\n'){row.push(cell);rows.push(row);row=[];cell="";}
+      else if(ch!=='\r')cell+=ch;
+    }
+  }
+  if(cell!==""||row.length){row.push(cell);rows.push(row);}
+  return rows;
+}
+const truthy=v=>/^(true|verdadero|1|s[ií]|x|✓)$/i.test(String(v||"").trim());
+
+function mapRows(rows){
+  let colStart=-1,artIdx=-1;
+  rows.forEach((r,idx)=>{
+    const a=String(r[0]||"").trim().toLowerCase();
+    if(a==="colaboradores")colStart=idx+1;
+    if(/^art[ií]culos$/.test(a))artIdx=idx;
+  });
+  if(colStart<0)colStart=1; // si gviz tomó la 1ª fila como encabezado
+  const colEnd = artIdx>=0?artIdx:rows.length;
+
+  const colab=[];
+  for(let i=colStart;i<colEnd;i++){
+    const r=rows[i];if(!r)continue;
+    const nombre=String(r[0]||"").trim();
+    if(!nombre)continue; // salta la fila de subtotal (sin nombre)
+    const meses=Array.from({length:12},(_,k)=>truthy(r[1+k]));
+    colab.push({nombre,meses});
+  }
+
+  const compras=[];
+  if(artIdx>=0){
+    for(let i=artIdx+1;i<rows.length;i++){
+      const r=rows[i];if(!r)continue;
+      const articulo=String(r[0]||"").trim();
+      if(!articulo||/^total$|^remanente$/i.test(articulo))continue;
+      const cantidad=n(r[1]),unitario=n(r[2]);
+      if(cantidad>0||unitario>0)compras.push({articulo,cantidad,unitario});
+    }
+  }
+  return {colab,compras};
+}
+
+function setStatus(state,text){const c=$("#statusChip");c.className="status "+state;$("#statusText").textContent=text;}
+
+async function fetchSheet(){
+  for(const url of SOURCES){
+    try{
+      const r=await fetch(url,{cache:"no-store"});
+      if(!r.ok)continue;
+      const txt=await r.text();
+      if(/^\s*<(!doctype|html)/i.test(txt))continue; // página de login, no CSV
+      return txt;
+    }catch(e){/* intenta la siguiente fuente */}
+  }
+  throw new Error("Sin fuente disponible");
+}
+
+async function sync(showLoading){
+  if(showLoading)setStatus("loading","Actualizando…");
+  try{
+    const txt=await fetchSheet();
+    const {colab,compras}=mapRows(parseCSV(txt));
+    if(colab.length)COLAB=colab;
+    if(compras.length)COMPRAS=compras;
+    renderAll();
+    const t=new Date().toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"});
+    setStatus("ok","Actualizado · "+t);
+  }catch(e){
+    renderAll();
+    setStatus("off","Sin conexión a la hoja — usando copia");
+  }
+}
+$("#statusChip").addEventListener("click",()=>sync(true));
+
+/* ============================================================
+   JUEGO: botón que huye por toda la página
+   ============================================================ */
+const overlay=$("#overlay"),btnYes=$("#btnYes");
+let tries=0,evasive=true,lastMove=0;
+
+function openGame(nombre){
+  tries=0;evasive=!CUMPLES_HOY.includes(nombre);
+  $("#who").textContent=`¿Hoy es tu cumpleaños, ${nombre}?`;
+  $("#tries").textContent="";
+  $("#gamePanel").style.display="block";$("#reveal").classList.remove("show");
+  btnYes.textContent="¡Hoy es mi cumpleaños!";
+  if(evasive){btnYes.classList.add("fleeing");placeYes(window.innerWidth/2-90,window.innerHeight*0.62);}
+  else{btnYes.classList.remove("fleeing");btnYes.style.left="";btnYes.style.top="";}
+  overlay.classList.add("show");document.body.style.overflow="hidden";
+}
+function closeGame(){overlay.classList.remove("show");document.body.style.overflow="";btnYes.classList.remove("fleeing");}
+$("#closeModal").addEventListener("click",closeGame);
+overlay.addEventListener("click",e=>{if(e.target===overlay)closeGame();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeGame();});
+
+function placeYes(x,y){
+  const bw=btnYes.offsetWidth||170,bh=btnYes.offsetHeight||50,pad=12;
+  x=Math.max(pad,Math.min(x,window.innerWidth-bw-pad));
+  y=Math.max(pad,Math.min(y,window.innerHeight-bh-pad));
+  btnYes.style.left=x+"px";btnYes.style.top=y+"px";
+}
+function fleeYes(){
+  const now=performance.now();if(now-lastMove<90)return;lastMove=now;
+  const bw=btnYes.offsetWidth||170,bh=btnYes.offsetHeight||50,pad=14;
+  placeYes(pad+Math.random()*(window.innerWidth-bw-2*pad),pad+Math.random()*(window.innerHeight-bh-2*pad));
+  tries++;
+  const t=["Casi… 😏","Por poquito","¿En serio? 🏃","Nope","No tan rápido","Jajaja no 😈","Sigue intentando"];
+  $("#tries").textContent=`${t[Math.min(tries,t.length)-1]||"Nope"} · intentos: ${tries}`;
+}
+function near(cx,cy){const b=btnYes.getBoundingClientRect();return Math.hypot(cx-(b.left+b.width/2),cy-(b.top+b.height/2))<130;}
+document.addEventListener("mousemove",e=>{if(overlay.classList.contains("show")&&evasive&&near(e.clientX,e.clientY))fleeYes();});
+document.addEventListener("touchmove",e=>{if(overlay.classList.contains("show")&&evasive){const t=e.touches[0];if(t&&near(t.clientX,t.clientY))fleeYes();}},{passive:true});
+btnYes.addEventListener("mouseenter",()=>{if(evasive)fleeYes();});
+btnYes.addEventListener("focus",()=>{if(evasive)fleeYes();});
+btnYes.addEventListener("touchstart",e=>{if(evasive){e.preventDefault();fleeYes();}},{passive:false});
+btnYes.addEventListener("click",e=>{
+  if(evasive){fleeYes();return;}
+  e.target.textContent="🎉 ¡FELICIDADES! 🎉";
+  $("#tries").textContent="Aquí va la sorpresa que definamos 🎁";
+});
+
+$("#btnNo").addEventListener("click",()=>{
+  const burns=["Sigue como cualquier martes. Vuelve el día correcto.","Hoy te toca ser una persona promedio más. 🫡","Confirmado: hoy nadie te canta Las Mañanitas.","Gracias por tu honestidad. El bote sigue intacto."];
+  $("#revealSub").textContent=burns[Math.floor(Math.random()*burns.length)];
+  $("#revealFace").textContent=["😐","🫥","🙃","😶‍🌫️"][Math.floor(Math.random()*4)];
+  $("#gamePanel").style.display="none";$("#reveal").classList.add("show");
+});
+$("#revealBack").addEventListener("click",()=>{$("#reveal").classList.remove("show");$("#gamePanel").style.display="block";});
+
+/* Init + auto-actualización */
+renderBunting();renderAll();sync(false);
+setInterval(()=>{if(!document.hidden&&!overlay.classList.contains("show"))sync(false);},60000);
+window.addEventListener("focus",()=>{if(!overlay.classList.contains("show"))sync(false);});
+let rt;window.addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(renderBunting,150);});
+</script>
+</body>
+</html>
