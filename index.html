@@ -18,8 +18,6 @@
   body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
   h1,h2,h3{font-family:"Fredoka","Inter",sans-serif;font-weight:600;letter-spacing:-.01em}
   .wrap{max-width:1040px;margin:0 auto;padding:0 18px 90px}
-
-  /* papel picado */
   .bunting{display:flex;flex-wrap:nowrap;overflow:hidden;height:34px;justify-content:center;margin-top:6px}
   .flag{flex:0 0 38px;height:30px;clip-path:polygon(0 0,100% 0,50% 100%);position:relative;opacity:.95}
   .flag::before,.flag::after{content:"";position:absolute;background:var(--bg);border-radius:50%}
@@ -28,7 +26,6 @@
   .flag:nth-child(5n+1){background:var(--pink)}.flag:nth-child(5n+2){background:var(--gold)}
   .flag:nth-child(5n+3){background:var(--mint)}.flag:nth-child(5n+4){background:var(--blue)}
   .flag:nth-child(5n+5){background:var(--grape)}
-
   header{text-align:center;padding:24px 18px 6px}
   .kicker{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
   header h1{font-size:clamp(2rem,6vw,3.2rem);margin:.18em 0 .1em;font-weight:700}
@@ -43,8 +40,6 @@
   @keyframes pulse{50%{opacity:.3}}
   .edit-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-family:"Fredoka";font-weight:600;font-size:.9rem;padding:9px 18px;border-radius:999px;background:var(--ink);color:#fff;transition:transform .12s}
   .edit-link:hover{transform:translateY(-2px)}
-
-  /* hero */
   .hero{background:var(--card);border-radius:26px;box-shadow:var(--shadow);padding:26px 26px 30px;margin-top:20px;border:1px solid var(--line)}
   .hero .label{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
   .hero .big{font-family:"Fredoka";font-weight:700;font-size:clamp(2.6rem,9vw,4.4rem);line-height:1;margin:.1em 0 .05em}
@@ -58,19 +53,15 @@
   .legend i{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:7px;vertical-align:-1px}
   .legend span{font-size:.86rem;color:var(--ink-soft);font-weight:500}
   .legend b{color:var(--ink);font-variant-numeric:tabular-nums}
-
   .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
   .tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow)}
   .tile .t-label{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
   .tile .t-val{font-family:"Fredoka";font-weight:600;font-size:1.7rem;margin-top:3px;font-variant-numeric:tabular-nums}
   .tile.in .t-val{color:var(--mint)}.tile.out .t-val{color:var(--pink)}.tile.left .t-val{color:var(--grape)}
-
   .sec-head{display:flex;align-items:center;gap:12px;margin:42px 0 16px;flex-wrap:wrap}
   .sec-head h2{font-size:1.5rem;margin:0}
   .sec-head .count{font-size:.82rem;color:var(--ink-soft);background:#F3EDF8;border-radius:999px;padding:4px 12px;font-weight:600}
   .sec-head .hint{margin-left:auto;font-size:.85rem;color:var(--ink-soft)}
-
-  /* roster */
   .roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
   .person{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);text-align:left;transition:transform .15s,box-shadow .15s,border-color .15s;font:inherit;color:inherit;display:block;width:100%;cursor:pointer}
   .person:hover,.person:focus-visible{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--pink);outline:none}
@@ -92,8 +83,6 @@
   .badge.part{background:rgba(91,141,239,.14);color:#2f5fc0}
   .badge.none{background:rgba(255,77,141,.12);color:#c93069}
   .tap-hint{font-size:.72rem;color:var(--ink-soft);margin-top:9px}
-
-  /* compras */
   .buys{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
   .buy-row{display:grid;grid-template-columns:1fr auto 92px;gap:10px;padding:13px 18px;align-items:center;border-bottom:1px solid var(--line)}
   .buy-row:last-of-type{border-bottom:none}
@@ -103,11 +92,8 @@
   .buy-foot{display:flex;justify-content:space-between;padding:16px 18px;background:#FBF6FF}
   .buy-foot .lbl{font-family:"Fredoka";font-weight:600}
   .buy-foot b{font-variant-numeric:tabular-nums}
-
   footer{text-align:center;color:var(--ink-soft);font-size:.82rem;margin-top:46px}
   footer a{color:var(--pink);text-decoration:none;font-weight:600}
-
-  /* modal */
   .overlay{position:fixed;inset:0;background:rgba(45,27,78,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}
   .overlay.show{display:flex}
   .modal{background:var(--card);border-radius:26px;box-shadow:var(--shadow-lg);width:100%;max-width:480px;position:relative;overflow:visible;animation:pop .25s cubic-bezier(.2,.8,.25,1.4)}
@@ -132,11 +118,7 @@
   .reveal .verdict{font-family:"Fredoka";font-weight:700;font-size:1.55rem;margin:10px 0 4px}
   .reveal .small{color:var(--ink-soft);margin:0 0 20px}
   .reveal .back{background:var(--ink);color:#fff;border:none;border-radius:12px;padding:11px 20px;font-family:"Fredoka";font-weight:600;cursor:pointer}
-
-  @media (max-width:560px){
-    .stats{grid-template-columns:1fr}
-    .buy-row{grid-template-columns:1fr auto 80px}
-  }
+  @media (max-width:560px){.stats{grid-template-columns:1fr}.buy-row{grid-template-columns:1fr auto 80px}}
   @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important}}
 </style>
 </head>
@@ -219,15 +201,20 @@
 
 <script>
 /* ============================================================
-   FUENTE DE DATOS: la hoja de cálculo.
-   Editas en la hoja (pagos y gastos) y esta página se actualiza
-   sola al cargar, cada 60 s y al volver a la pestaña.
+   FUENTE DE DATOS: la hoja de cálculo (editas ahí, esto se
+   actualiza solo al cargar, cada 60 s y al volver a la pestaña).
 
-   REQUISITO ÚNICO: la hoja debe estar compartida como
-   "Cualquiera con el enlace -> Lector".
-   (Si por alguna razón no carga, ve a  Archivo > Compartir >
-    Publicar en la web > CSV  y listo; eso garantiza la lectura.)
+   ⭐ ARREGLO IMPORTANTE: tu hoja tiene DOS tablas en una sola
+   pestaña, y el lector automático de Google (gviz) las mezcla y
+   confunde los montos. Para que lea FIEL la hoja, haz esto UNA vez:
+
+   1) En la hoja:  Archivo > Compartir > Publicar en la web
+   2) Pestaña "Vínculo": elige "Documento completo" y formato "CSV"
+   3) Publicar > copia la URL (termina en .../pub?output=csv)
+   4) Pégala aquí abajo entre las comillas:
    ============================================================ */
+const PUBLISHED_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRaNz2vS113_vUSz-27X8j17eseco34sflr8Q8355OKaCUDyV6Zaroa2fGaL9-YqXOD6QUVas78clVG/pub?output=csv";
+
 const SHEET_ID = "1to8kg8F8fUKBCKR13ywX2OrZ7dmkbrTqEmkCT-NkV5Y";
 const CUOTA_MES = 10, CUOTA_ANUAL = 120;
 const MESES_FULL = ["Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre","Enero","Febrero","Marzo"];
@@ -238,7 +225,7 @@ const CUMPLES_HOY = [];
 
 /* Copia de respaldo (instantánea de hoy) por si la hoja no carga */
 let COLAB = [
-  {nombre:"Almis",meses:b("110000000000")},{nombre:"Ara",meses:b("111111111111")},
+  {nombre:"Almis",meses:b("111100000000")},{nombre:"Ara",meses:b("111111111111")},
   {nombre:"Bety",meses:b("111111111111")},{nombre:"Dani boy",meses:b("111111111111")},
   {nombre:"Eli",meses:b("111111111110")},{nombre:"Ginis",meses:b("111111111111")},
   {nombre:"Harry",meses:b("111111111111")},{nombre:"Tania",meses:b("111111111111")},
@@ -253,6 +240,7 @@ let COMPRAS = [
   {articulo:"Letrero",cantidad:1,unitario:40},{articulo:"Confeti",cantidad:1,unitario:60},
   {articulo:"Banda de cumpleaños",cantidad:1,unitario:38},{articulo:"Cucharas",cantidad:6,unitario:24},
   {articulo:"Platos de cartón",cantidad:6,unitario:21},{articulo:"Servilletas",cantidad:1,unitario:45},
+  {articulo:"Globos",cantidad:2,unitario:178},
 ];
 function b(s){return s.split("").map(c=>c==="1")}
 
@@ -270,14 +258,10 @@ function totales(){
   const gastado=COMPRAS.reduce((a,c)=>a+n(c.cantidad)*n(c.unitario),0);
   return {recaudado,gastado,disponible:recaudado-gastado};
 }
-
 $("#editLink").href = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`;
 
-/* ============================================================
-   Render
-   ============================================================ */
+/* ---------- Render ---------- */
 function renderBunting(){const k=Math.ceil(window.innerWidth/38)+2;$("#bunting").innerHTML=Array.from({length:k},()=>'<div class="flag"></div>').join("");}
-
 function renderHero(){
   const {recaudado,gastado,disponible}=totales();
   $("#dispBig").innerHTML=fmt.format(disponible)+'<small> MXN</small>';
@@ -288,7 +272,6 @@ function renderHero(){
   $("#legSpent").textContent=fmt.format(gastado);$("#legFree").textContent=fmt.format(disponible);$("#legRaised").textContent=fmt.format(recaudado);
   $("#stRaised").textContent=fmt.format(recaudado);$("#stSpent").textContent=fmt.format(gastado);$("#stFree").textContent=fmt.format(disponible);
 }
-
 function renderRoster(){
   const cont=$("#roster");cont.innerHTML="";
   $("#rosterCount").textContent=COLAB.length+" personas";
@@ -317,7 +300,6 @@ function renderRoster(){
     cont.appendChild(card);
   });
 }
-
 function renderBuys(){
   const cont=$("#buys");
   $("#buysCount").textContent=COMPRAS.length+" artículos";
@@ -335,12 +317,16 @@ function renderBuys(){
 function renderAll(){renderHero();renderRoster();renderBuys();}
 
 /* ============================================================
-   Lectura de la hoja de cálculo (CSV) + parseo de 2 tablas
+   Lectura de la hoja (CSV crudo y fiel) + parseo de 2 tablas
+   Orden de fuentes:  Publicado (fiel) -> export (fiel) -> gviz.
    ============================================================ */
-const SOURCES=[
-  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`,
-  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`
-];
+function buildSources(){
+  const s=[];
+  if(PUBLISHED_CSV_URL && /^https?:\/\//.test(PUBLISHED_CSV_URL)) s.push(PUBLISHED_CSV_URL);
+  s.push(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`);
+  s.push(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`);
+  return s;
+}
 function parseCSV(text){
   const rows=[];let row=[],cell="",q=false;
   for(let i=0;i<text.length;i++){
@@ -356,23 +342,24 @@ function parseCSV(text){
   if(cell!==""||row.length){row.push(cell);rows.push(row);}
   return rows;
 }
-const truthy=v=>/^(true|verdadero|1|s[ií]|x|✓)$/i.test(String(v||"").trim());
+const norm=s=>String(s==null?"":s).trim();
+const truthy=v=>/^(true|verdadero|1|s[ií]|x|✓)$/i.test(norm(v));
 
 function mapRows(rows){
   let colStart=-1,artIdx=-1;
   rows.forEach((r,idx)=>{
-    const a=String(r[0]||"").trim().toLowerCase();
+    const a=norm(r[0]).toLowerCase();
     if(a==="colaboradores")colStart=idx+1;
     if(/^art[ií]culos$/.test(a))artIdx=idx;
   });
-  if(colStart<0)colStart=1; // si gviz tomó la 1ª fila como encabezado
-  const colEnd = artIdx>=0?artIdx:rows.length;
+  if(colStart<0)colStart=1; // si la 1ª fila fue tomada como encabezado
+  const colEnd = artIdx>=0 ? artIdx : rows.length;
 
   const colab=[];
   for(let i=colStart;i<colEnd;i++){
     const r=rows[i];if(!r)continue;
-    const nombre=String(r[0]||"").trim();
-    if(!nombre)continue; // salta la fila de subtotal (sin nombre)
+    const nombre=norm(r[0]);
+    if(!nombre){ if(artIdx<0)break; else continue; } // corta en fila vacía / salta subtotal
     const meses=Array.from({length:12},(_,k)=>truthy(r[1+k]));
     colab.push({nombre,meses});
   }
@@ -381,7 +368,7 @@ function mapRows(rows){
   if(artIdx>=0){
     for(let i=artIdx+1;i<rows.length;i++){
       const r=rows[i];if(!r)continue;
-      const articulo=String(r[0]||"").trim();
+      const articulo=norm(r[0]);
       if(!articulo||/^total$|^remanente$/i.test(articulo))continue;
       const cantidad=n(r[1]),unitario=n(r[2]);
       if(cantidad>0||unitario>0)compras.push({articulo,cantidad,unitario});
@@ -393,25 +380,25 @@ function mapRows(rows){
 function setStatus(state,text){const c=$("#statusChip");c.className="status "+state;$("#statusText").textContent=text;}
 
 async function fetchSheet(){
-  for(const url of SOURCES){
+  for(const url of buildSources()){
     try{
       const r=await fetch(url,{cache:"no-store"});
       if(!r.ok)continue;
       const txt=await r.text();
-      if(/^\s*<(!doctype|html)/i.test(txt))continue; // página de login, no CSV
-      return txt;
-    }catch(e){/* intenta la siguiente fuente */}
+      if(/^\s*<(!doctype|html)/i.test(txt))continue; // página de login, no es CSV
+      const parsed=mapRows(parseCSV(txt));
+      if(parsed.colab.length)return parsed; // fuente válida
+    }catch(e){/* intenta la siguiente */}
   }
-  throw new Error("Sin fuente disponible");
+  throw new Error("Sin fuente válida");
 }
 
 async function sync(showLoading){
   if(showLoading)setStatus("loading","Actualizando…");
   try{
-    const txt=await fetchSheet();
-    const {colab,compras}=mapRows(parseCSV(txt));
-    if(colab.length)COLAB=colab;
-    if(compras.length)COMPRAS=compras;
+    const {colab,compras}=await fetchSheet();
+    COLAB=colab;
+    COMPRAS=compras.length?compras:COMPRAS;
     renderAll();
     const t=new Date().toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"});
     setStatus("ok","Actualizado · "+t);
@@ -427,7 +414,6 @@ $("#statusChip").addEventListener("click",()=>sync(true));
    ============================================================ */
 const overlay=$("#overlay"),btnYes=$("#btnYes");
 let tries=0,evasive=true,lastMove=0;
-
 function openGame(nombre){
   tries=0;evasive=!CUMPLES_HOY.includes(nombre);
   $("#who").textContent=`¿Hoy es tu cumpleaños, ${nombre}?`;
@@ -442,7 +428,6 @@ function closeGame(){overlay.classList.remove("show");document.body.style.overfl
 $("#closeModal").addEventListener("click",closeGame);
 overlay.addEventListener("click",e=>{if(e.target===overlay)closeGame();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeGame();});
-
 function placeYes(x,y){
   const bw=btnYes.offsetWidth||170,bh=btnYes.offsetHeight||50,pad=12;
   x=Math.max(pad,Math.min(x,window.innerWidth-bw-pad));
@@ -468,7 +453,6 @@ btnYes.addEventListener("click",e=>{
   e.target.textContent="🎉 ¡FELICIDADES! 🎉";
   $("#tries").textContent="Aquí va la sorpresa que definamos 🎁";
 });
-
 $("#btnNo").addEventListener("click",()=>{
   const burns=["Sigue como cualquier martes. Vuelve el día correcto.","Hoy te toca ser una persona promedio más. 🫡","Confirmado: hoy nadie te canta Las Mañanitas.","Gracias por tu honestidad. El bote sigue intacto."];
   $("#revealSub").textContent=burns[Math.floor(Math.random()*burns.length)];
