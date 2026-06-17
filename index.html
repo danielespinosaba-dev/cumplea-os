@@ -343,34 +343,54 @@ function parseCSV(text){
   return rows;
 }
 const norm=s=>String(s==null?"":s).trim();
-const truthy=v=>/^(true|verdadero|1|s[ií]|x|✓)$/i.test(norm(v));
+const deacc=s=>norm(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+const truthy=v=>/^(true|verdadero|1|s[ií]|x|✓|on)$/i.test(norm(v));
 
 function mapRows(rows){
-  let colStart=-1,artIdx=-1;
+  // 1) Ubica la fila de encabezado de colaboradores y la de artículos
+  let headerIdx=-1, artIdx=-1;
   rows.forEach((r,idx)=>{
-    const a=norm(r[0]).toLowerCase();
-    if(a==="colaboradores")colStart=idx+1;
-    if(/^art[ií]culos$/.test(a))artIdx=idx;
+    const a=deacc(r[0]);
+    if(a==="colaboradores")headerIdx=idx;
+    if(a==="articulos")artIdx=idx;
   });
-  if(colStart<0)colStart=1; // si la 1ª fila fue tomada como encabezado
-  const colEnd = artIdx>=0 ? artIdx : rows.length;
+  if(headerIdx<0)headerIdx=0;
+  const header=rows[headerIdx]||[];
 
+  // 2) Lee cada mes POR EL NOMBRE de su columna (no por posición fija).
+  //    Así, si Google recorre o agrega una columna, Junio sigue siendo Junio.
+  const monthCols=MESES_FULL.map(m=>{
+    const md=deacc(m);
+    return header.findIndex(h=>deacc(h)===md);
+  });
+  const monthsByName = monthCols.every(i=>i>=0);
+
+  const colStart=headerIdx+1;
+  const colEnd = artIdx>=0 ? artIdx : rows.length;
   const colab=[];
   for(let i=colStart;i<colEnd;i++){
     const r=rows[i];if(!r)continue;
     const nombre=norm(r[0]);
-    if(!nombre){ if(artIdx<0)break; else continue; } // corta en fila vacía / salta subtotal
-    const meses=Array.from({length:12},(_,k)=>truthy(r[1+k]));
+    if(!nombre){ if(artIdx<0)break; else continue; } // corta en blanco / salta subtotal
+    const meses = monthsByName
+      ? monthCols.map(ci=>truthy(r[ci]))
+      : Array.from({length:12},(_,k)=>truthy(r[1+k])); // respaldo por posición
     colab.push({nombre,meses});
   }
 
+  // 3) Artículos: ubica las columnas Cantidad y Costo unitario por nombre.
   const compras=[];
   if(artIdx>=0){
+    const ah=rows[artIdx]||[];
+    let qtyCol=ah.findIndex(h=>/^cantidad$/i.test(norm(h)));
+    let unitCol=ah.findIndex(h=>/(costo|precio).*unitario|unitario|costo|precio/i.test(norm(h)));
+    if(qtyCol<0)qtyCol=1;
+    if(unitCol<0)unitCol=2;
     for(let i=artIdx+1;i<rows.length;i++){
       const r=rows[i];if(!r)continue;
       const articulo=norm(r[0]);
       if(!articulo||/^total$|^remanente$/i.test(articulo))continue;
-      const cantidad=n(r[1]),unitario=n(r[2]);
+      const cantidad=n(r[qtyCol]),unitario=n(r[unitCol]);
       if(cantidad>0||unitario>0)compras.push({articulo,cantidad,unitario});
     }
   }
